@@ -21,9 +21,6 @@
     - name: "Include tleguern.metamod-source"
       include_role:
         name: "tleguern.metamod-source"
-    - name: "Include tleguern.sourcemod"
-      include_role:
-        name: "tleguern.sourcemod"
     - name: "Include ansible-role-dod-source-rcbot2"
       include_role:
         name: "ansible-role-dod-source-rcbot2"
