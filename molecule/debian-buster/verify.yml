@@ -10,4 +10,4 @@
     - assert:
         that:
           - rcon.rc == 0
-          - rcon.stdout_lines | select('search', 'RCbot2') != []
+          - rcon.stdout_lines | select('search', 'RCBot2') != []
