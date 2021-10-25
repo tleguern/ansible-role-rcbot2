@@ -1,0 +1,13 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: no
+  become: no
+  tasks:
+    - name: Query metamod plugin list
+      command: rcon -p 27015 -H 127.0.0.1 -P srht meta list
+      register: rcon
+    - assert:
+        that:
+          - rcon.rc == 0
+          - rcon.stdout_lines | select('search', 'RCbot2') != []

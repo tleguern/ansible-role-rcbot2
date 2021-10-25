@@ -1,0 +1,14 @@
+---
+roles:
+  - src: https://github.com/tleguern/ansible-steamcmd.git
+    name: tleguern.steamcmd
+    version: master
+  - src: https://github.com/tleguern/ansible-role-dod-source.git
+    name: tleguern.dod-source
+    version: master
+  - src: https://github.com/tleguern/ansible-role-metamod-source.git
+    name: tleguern.metamod-source
+    version: master
+  - src: https://github.com/tleguern/ansible-role-sourcemod.git
+    name: tleguern.sourcemod
+    version: master

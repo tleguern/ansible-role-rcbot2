@@ -1,0 +1,29 @@
+---
+- name: Converge
+  hosts: all
+  become: yes
+  become_user: root
+  become_method: sudo
+  vars:
+    steamcmd_user: steam
+    dod_source_ip: 127.0.0.1
+    dod_source_server_cfg: |
+      hostname "srht"
+      rcon_password "srht"
+    metamod_source_install_path: /home/steam/dod-source/dod
+  tasks:
+    - name: "Include tleguern.steamcmd"
+      include_role:
+        name: "tleguern.steamcmd"
+    - name: "Include tleguern.dod-source"
+      include_role:
+        name: "tleguern.dod-source"
+    - name: "Include tleguern.metamod-source"
+      include_role:
+        name: "tleguern.metamod-source"
+    - name: "Include tleguern.sourcemod"
+      include_role:
+        name: "tleguern.sourcemod"
+    - name: "Include ansible-role-dod-source-rcbot2"
+      include_role:
+        name: "ansible-role-dod-source-rcbot2"

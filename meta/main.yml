@@ -1,0 +1,17 @@
+---
+galaxy_info:
+  role_name: rcbot2
+  author: Tristan Le Guern
+  description: Install the Day of Defeat Source RCBot2 plugin
+  company: Gwern
+  license: ISC
+  min_ansible_version: 2.9
+  platforms:
+    - name: Debian
+    - name: Ubuntu
+  galaxy_tags:
+    - dod
+    - dodsource
+    - metamodsource
+    - sourcemod
+dependencies: []

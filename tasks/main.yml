@@ -1,0 +1,113 @@
+---
+- name: Check if RCBot2 is installed.
+  stat:
+    path: "{{ rcbot2_install_path }}/addons/metamod/rcbot2.vdf"
+  register: __rcbot2_exists
+
+- name: Check if RCBot2 was installed using ansible
+  stat:
+    path: "{{ rcbot2_install_path }}/addons/rcbot2/version.txt"
+  register: __rcbot2_exists_ansible
+  when: __rcbot2_exists.stat.exists
+
+- name: Check the currently installed version of RCBot2.
+  command:
+    cmd: grep -qF {{ rcbot2_version }} "{{ rcbot2_install_path }}/addons/rcbot2/version.txt"
+  register: __rcbot2_current_version
+  changed_when: no
+  failed_when: no
+  when:
+    - __rcbot2_exists.stat.exists
+    - __rcbot2_exists_ansible.stat.exists
+
+- name: Remove the previous version.
+  file:
+    path: "{{ rcbot2_install_path }}/{{ item }}"
+    state: absent
+  loop:
+    - addons/metamod/rcbot2.vdf
+    - addons/rcbot2/
+  when:
+    - __rcbot2_exists.stat.exists
+    - not __rcbot2_exists_ansible.stat.exists
+      or __rcbot2_current_version.rc != 0
+
+- name: Install RCBot2
+  when: 'not __rcbot2_exists.stat.exists or not __rcbot2_exists_ansible.stat.exists or __rcbot2_current_version.rc != 0'
+  block:
+    - name: Download the requested version.
+      become: no
+      get_url:
+        url: "{{ rcbot2_url }}/{{ rcbot2_version }}/{{ rcbot2_target }}"
+        dest: /tmp
+        mode: 0644
+
+    - name: Extract the downloaded file.
+      unarchive:
+        remote_src: yes
+        src: "/tmp/{{ rcbot2_target }}"
+        dest: "{{ rcbot2_install_path }}/"
+        owner: "{{ steamcmd_user }}"
+        group: "{{ steamcmd_user }}"
+
+    - name: Retrive the list of directories.
+      find:
+        file_type: directory
+        path: "{{ rcbot2_install_path }}/addons/rcbot2/"
+        recurse: yes
+      register: __rcbot2_installed_dirs
+
+    - name: Retrive the list of files.
+      find:
+        file_type: file
+        path: "{{ rcbot2_install_path }}/addons/rcbot2/"
+        recurse: yes
+      register: __rcbot2_installed_files
+
+    - name: Fix rights on extracted directories.
+      file:
+        name: "{{ item }}"
+        owner: "{{ steamcmd_user }}"
+        group: "{{ steamcmd_user }}"
+        mode: 0755
+      loop: "{{ [ rcbot2_install_path + '/addons/metamod' ] + __rcbot2_installed_dirs.files | map(attribute='path') }}"
+
+    - name: Fix rights on extracted files.
+      file:
+        name: "{{ item }}"
+        owner: "{{ steamcmd_user }}"
+        group: "{{ steamcmd_user }}"
+        mode: 0644
+      loop: "{{ __rcbot2_installed_files.files | map(attribute='path') }}"
+
+    - name: Remove the archive.
+      become: no
+      file:
+        path: "/tmp/{{ rcbot2_target }}"
+        state: absent
+
+    - name: Write the current RCBot2 version.
+      copy:
+        dest: "{{ rcbot2_install_path }}/addons/rcbot2/version.txt"
+        content: "{{ rcbot2_version }}"
+        owner: "{{ steamcmd_user }}"
+        group: "{{ steamcmd_user }}"
+        mode: 0644
+      notify: "Restart dod-source"
+
+- name: Ensure RCBot2 config.ini is installed.
+  template:
+    src: config.ini.j2
+    dest: "{{ rcbot2_install_path }}/addons/rcbot2/config/config.ini"
+    owner: "{{ steamcmd_user }}"
+    group: "{{ steamcmd_user }}"
+    mode: 0644
+  when: rcbot2_config
+  notify: "Restart dod-source"
+
+- name: Ensure waypoints are installed.
+  synchronize:
+    src: "{{ rcbot2_waypoints_directory }}"
+    dest: "/home/{{ steamcmd_user }}/dod-source/dod/addons/rcbot2/waypoints/dod/"
+    delete: yes
+  when: rcbot2_waypoints_directory
