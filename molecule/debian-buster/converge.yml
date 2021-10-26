@@ -11,6 +11,7 @@
       hostname "srht"
       rcon_password "srht"
     metamod_source_install_path: /home/steam/dod-source/dod
+    rcbot2_install_path: "/home/{{ steamcmd_user }}/.steam/steamapps/common/Day of Defeat Source Dedicated Server/dod"
   tasks:
     - name: "Include tleguern.steamcmd"
       include_role:
@@ -21,6 +22,6 @@
     - name: "Include tleguern.metamod-source"
       include_role:
         name: "tleguern.metamod-source"
-    - name: "Include ansible-role-dod-source-rcbot2"
+    - name: "Include ansible-role-rcbot2"
       include_role:
         name: "ansible-role-dod-source-rcbot2"
