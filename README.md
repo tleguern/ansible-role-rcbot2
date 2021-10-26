@@ -55,7 +55,7 @@ None.
 ```yaml
 - hosts: game
   vars:
-    rcbot2_waypoints_directory: files/dod-source/waypoints
+    rcbot2_waypoints_directory: files/waypoints
     rcbot2_install_path: "/home/{{ steamcmd_user }}/.steam/steamapps/common/Day of Defeat Source Dedicated Server/dod"
   pre_tasks:
     - package:
@@ -74,7 +74,7 @@ ISC
 
 ## Contributing
 
-Either send [send GitHub pull requests](https://github.com/tleguern/ansible-role-dod-source-rcbot2) or [send patches on SourceHut](https://lists.sr.ht/~tleguern/misc).
+Either send [send GitHub pull requests](https://github.com/tleguern/ansible-role-rcbot2) or [send patches on SourceHut](https://lists.sr.ht/~tleguern/misc).
 
 ## Author Information
 

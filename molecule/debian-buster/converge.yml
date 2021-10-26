@@ -24,4 +24,4 @@
         name: "tleguern.metamod-source"
     - name: "Include ansible-role-rcbot2"
       include_role:
-        name: "ansible-role-dod-source-rcbot2"
+        name: "ansible-role-rcbot2"

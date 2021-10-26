@@ -11,7 +11,7 @@ packages:
   - libbsd-dev
   - libglib2.0-dev
 sources:
-  - https://git.sr.ht/~tleguern/ansible-role-dod-source-rcbot2
+  - https://git.sr.ht/~tleguern/ansible-role-rcbot2
   - https://github.com/n0la/rcon
 environment:
   PATH: "/bin:/usr/bin/:/usr/local/bin:/home/build/.local/bin"
@@ -27,5 +27,5 @@ tasks:
       make
       sudo make install
   - molecule: |
-      cd ansible-role-dod-source-rcbot2
+      cd ansible-role-rcbot2
       molecule test -s debian-buster
