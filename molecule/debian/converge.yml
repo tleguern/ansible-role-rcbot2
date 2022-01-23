@@ -11,7 +11,7 @@
       hostname "srht"
       rcon_password "srht"
     metamod_source_install_path: /home/steam/dod-source/dod
-    rcbot2_install_path: "/home/{{ steamcmd_user }}/.steam/steamapps/common/Day of Defeat Source Dedicated Server/dod"
+    rcbot2_install_path: "{{ steam_home }}/steamapps/common/Day of Defeat Source Dedicated Server/dod"
   tasks:
     - name: "Include tleguern.steamcmd"
       include_role:
