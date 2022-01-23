@@ -16,12 +16,12 @@
     - name: "Include tleguern.steamcmd"
       include_role:
         name: "tleguern.steamcmd"
-    - name: "Include tleguern.dod-source"
+    - name: "Include tleguern.dod_source"
       include_role:
-        name: "tleguern.dod-source"
-    - name: "Include tleguern.metamod-source"
+        name: "tleguern.dod_source"
+    - name: "Include tleguern.metamod_source"
       include_role:
-        name: "tleguern.metamod-source"
+        name: "tleguern.metamod_source"
     - name: "Include ansible-role-rcbot2"
       include_role:
         name: "ansible-role-rcbot2"
